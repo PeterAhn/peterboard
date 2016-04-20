@@ -10,6 +10,7 @@ var methodOverride = require('method-override');
 // database
 mongoose.connect(process.env.MONGO_DB);
 var db = mongoose.connection;
+
 db.once("open", function(){
   console.log("DB connected!");
 });
