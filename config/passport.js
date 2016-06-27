@@ -13,25 +13,27 @@ passport.deserializeUser(function(id, done){
 
 passport.use('local-login',
   new LocalStrategy({
-    usernameField : 'email',
-    passwordField : 'password',
-    passReqToCallback : true
-  },
-  function(req, email, password, done) {
-    User.findOne({ 'email' : email }, function(err, user){
-      if(err) return done(err);
+      usernameField : 'email',
+      passwordField : 'password',
+      passReqToCallback : true
+    },
+    function(req, email, password, done) {
+      User.findOne({ 'email' :  email }, function(err, user) {
+        if (err) return done(err);
 
-      if(!user) {
-        req.flash("email", req.body.email);
-        return done(null, false, req.flash('loginError', 'No user found.'));
-      }
-      if(!user.authenticate(password)){
-        req.flash("password", req.body.password);
-        return done(null, false, req.flash('loginError', 'Password does not match.'));
-      }
-      return done(null, user);
-    });
-  }
-));
+        if (!user){
+            req.flash("email", req.body.email);
+            return done(null, false, req.flash('loginError', 'No user found.'));
+        }
+        if (!user.authenticate(password)){
+            req.flash("email", req.body.email);
+            return done(null, false, req.flash('loginError', 'Password does not Match.'));
+        }
+        req.flash('postsMessage', 'Welcome '+user.nickname+'!');
+        return done(null, user);
+      });
+    }
+  )
+);
 
 module.exports = passport;
