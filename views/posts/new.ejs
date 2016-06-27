@@ -9,24 +9,40 @@
     </header>
     <div class="posts">
       <% include partials/top %>
-      <!-- main start -->
+      <!-- main start-->
 
-      <!-- views/posts/new.ejs -->
+      <!-- views/posts/index.ejs -->
       <div class="new">
+        <div class="buttons">
+          <button onclick="location.href='/posts'">Back</button>
+        </div>
         <h3>New Post</h3>
-        <form action="/posts" class="posts_form" method="post">
-          <label>Title</label>
-          <input type="text" name="post[title]" value="">
-          <div class="float_right">Author: <%= user.nickname %></div>
-          <label>Body</label>
-          <textarea name="post[body]"></textarea>
-          <button type="submit">Submit</button>
+        <form class="checkValidation" action="/posts" method="post">
+          <div class="inputs">
+            <div class="floats">
+              <label>Title</label>
+              <input class="cvRequired" type="text" name="post[title]" cvRqErrMsg="Title is required." cvRqErrTo="#cvErrTitle" value="">
+              <div id="cvErrTitle" class="message"></div>
+            </div>
+            <div class="floats">
+              <label>Author</label>
+              <input disabled type="text" value="<%= user.nickname %>">
+            </div>
+            <div class="floats">
+              <label>Body</label>
+              <textarea class="cvRequired" name="post[body]" cvRqErrMsg="Body is required." cvRqErrTo="#cvErrBody"></textarea>
+              <div id="cvErrBody" class="message"></div>
+            </div>
+          </div>
+          <div class="buttons">
+            <button type="submit">Submit</button>
+          </div>
         </form>
-        <a href="/posts"><button>Back</button></a>
       </div>
 
       <!-- main end -->
-    </div><!-- posts end -->
+          </div><!--posts end -->
+
     <footer>
       <% include ../partials/footer %>
     </footer>
