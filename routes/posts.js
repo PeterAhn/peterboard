@@ -4,9 +4,17 @@ var mongoose = require('mongoose');
 var Post = require('../models/Post');
 
 router.get('/', function(req,res){
-  Post.find({}).populate("author").sort('-createAt').exec(function(err,posts){
+  var page = Math.max(1, req.query.page);
+  var limit = 10;
+  Post.count({}, function(err, count){
     if(err) return res.json({success:false, message:err});
-    res.render("posts/index", {posts:posts, user:req.user, postsMessage:req.flash("postsMessage")[0]});
+    var skip = (page-1) * limit;
+    var maxPage = Math.ceil(count/limit);
+
+    Post.find({}).populate("author").sort('-createAt').skip(skip).limit(limit).exec(function(err,posts){
+      if(err) return res.json({success:false, message:err});
+      res.render("posts/index", {posts:posts, user:req.user, page:page, maxPage:maxPage, postsMessage:req.flash("postsMessage")[0]});
+    });
   });
 }); // index
 
@@ -25,7 +33,7 @@ router.post('/', isLoggedIn, function(req,res){
 router.get('/:id', function(req,res){
   Post.findById(req.params.id).populate("author").exec(function(err,post){
     if(err) return res.json({success:false, message:err});
-    res.render("posts/show", {post:post, user:req.user});
+    res.render("posts/show", {post:post, page:req.query.page, user:req.user});
   });
 }); // show
 
