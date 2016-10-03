@@ -28,13 +28,17 @@
         </div>
         <table>
           <colgroup>
+            <col class="num"/>
             <col class="title"/>
+            <col class="views"/>
             <col class="date"/>
             <col class="author"/>
           </colgroup>
           <thead>
             <tr>
+              <th>Num</th>
               <th>Title</th>
+              <th>Views</th>
               <th>Date</th>
               <th>Author</th>
             </tr>
@@ -42,7 +46,9 @@
           <tbody>
             <% posts.forEach(function(post){ %>
               <tr onclick="window.location = '/posts/<%= post._id %>?<%= urlQuery %>'">
+                <td><%= post.numId %></td>
                 <td class="highlight" data-highlight="<%= search.highlight.title %>"><%= post.title %></td>
+                <td><%= post.views %></td>
                 <td><%= post.getCreatedDate() %></td>
                 <td class="highlight" data-highlight="<%= search.highlight.author %>"><%= post.author.nickname %></td>
               </tr>
