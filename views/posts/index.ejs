@@ -17,13 +17,13 @@
         <%= postsMessage %>
       </div>
         <div class="buttons">
-          <button class="float_left" onclick="location.href='/posts/new'">New</button>
+          <a class="button float_left" href="/posts/new %>">New</a>
           <% if(user) {%>
-            <button class="float_right" onclick="location.href='/logout'">Logout</button>
-            <button class="float_right" onclick="location.href='/users/<%= user._id %>'">My Profile (<%= user.nickname %>)</button>
+            <a class="button float_right" href="/logout">Logout</a>
+            <a class="button float_right" href="/users/<%= user._id %>">My Profile (<%= user.nickname %>)</a>
           <% } else { %>
-            <button class="float_right" onclick="location.href='/login'">Login</button>
-            <button class="float_right" onclick="location.href='/users/new'">Sign Up</button>
+            <a class="button float_right" href="/login">Login</a>
+            <a class="button float_right" href="/users/new">Sign Up</a>
           <% } %>
         </div>
         <table>
@@ -50,11 +50,15 @@
           </tbody>
         </table>
         <ul class="pagination">
-          <% var offset = 3; %>
+          <%
+            var offset = 3;
+            var partialQuery;
+            if(urlQuery) partialQuery = "&"+rulQuery.replace(/page=(.*?)(&|$)/ig,"");
+          %>
           <% for(i=1; i<=maxPage; i++){ %>
             <% if(i<=offset || i>maxPage-offset || (i>=page-(offset-1) && i<=page+(offset-1))) { %>
               <% if(i != page) { %>
-                <li>[<a href="/posts?page=<%= i %>"> <%= i %> </a>]</li>
+                <li>[<a href="/posts?page=<%= i %><% partialQuery %>"> <%= i %> </a>]</li>
               <% } else { %>
                 <li>[<b> <%= i %> </b>]</li>
               <% } %>
@@ -62,7 +66,13 @@
                <li>...</li>
             <% } %>
           <% } %>
-        <ul>
+        </ul>
+        <div class="counter">
+          <% if(counter){ %>
+            Total <%= counter.totalCount %> visitors<br>
+            (today: <%= counter.todayCount %>)
+          <% } %>
+        </div>
       </div>
 
       <!-- main end -->

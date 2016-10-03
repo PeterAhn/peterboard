@@ -12,8 +12,11 @@
 
       <!-- views/users/edit.ejs -->
       <div class="edit">
+        <div class="buttons">
+          <button onclick="history.back()">Back</button>
+        </div>
         <h3>Update User Information</h3>
-        <form action="/users/<%= user._id %>?_method=put" id="update_user" class="users_form" method="post">
+        <form class="checkValidation" action="/users/<%= user._id %>?_method=put" id="update_user" class="users_form" method="post">
           <label>Current Password* <span id="password_error" class="error_message"><%= passwordError?passwordError:"" %></span></label>
           <input type="password" id="password" name="user[password]" value="">
           <hr><br>
@@ -26,7 +29,7 @@
           <label>Password Confirmation* <span id="password_confirmation_error" class="error_message"></span></label>
           <input type="password" id="password_confirmation" name="user[passwordConfirmation]" value="">
           <p><small>*Required</small></p>
-          <button class="submit_btn" type="submit">Submit</button>
+          <input class="button" type="submit" value="Submit">
         </form>
         <a href="javascript:history.back()"><button>Back</button></a>
       </div>
